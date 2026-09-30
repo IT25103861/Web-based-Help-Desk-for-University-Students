@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLIIT Central Help Desk | Support Portal</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- AOS Library for Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Professional Premium Font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --brand-dark: #0a192f;    /* SLIIT Navy Blue */
+            --brand-primary: #1e3a8a; /* Deep Royal Blue */
+            --brand-accent: #f59e0b;  /* SLIIT Gold/Orange Accent */
+            --brand-light: #f8fafc;
+            --brand-gray: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-light);
+            color: #334155;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            padding: 15px 0;
+        }
+        .navbar-brand { font-weight: 800; color: var(--brand-dark) !important; letter-spacing: -0.5px; }
+        .nav-link { font-weight: 600; color: var(--brand-gray); transition: color 0.2s; font-size: 0.95rem; }
+        .nav-link:hover, .nav-link.active { color: var(--brand-primary); }
+
+        /* Hero Section (Corporate University Look) */
+        .hero-section {
+            background: linear-gradient(135deg, var(--brand-dark) 0%, #1e293b 100%);
+            color: white;
+            padding: 140px 0 160px 0;
+            position: relative;
+        }
+        .hero-section::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
+            background: var(--brand-light);
+            clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        }
+        .hero-title { font-size: 3.8rem; font-weight: 800; line-height: 1.15; letter-spacing: -1px; }
+        .hero-title span { color: var(--brand-accent); }
+        .hero-subtitle { font-size: 1.15rem; font-weight: 300; opacity: 0.9; line-height: 1.8; }
+
+        /* Buttons */
+        .btn-custom-primary {
+            background-color: var(--brand-accent); border: none;
+            font-weight: 700; padding: 14px 32px; border-radius: 8px;
+            transition: all 0.3s; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3); color: var(--brand-dark);
+        }
+        .btn-custom-primary:hover { background-color: #d97706; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); color: white;}
+
+        .btn-custom-outline {
+            background-color: transparent; border: 2px solid rgba(255,255,255,0.3);
+            color: white; font-weight: 600; padding: 12px 30px; border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .btn-custom-outline:hover { background-color: white; color: var(--brand-dark); transform: translateY(-2px); border-color: white; }
+
+        /* Stats/Trust Banner */
+        .stats-banner { margin-top: -80px; position: relative; z-index: 10; }
+        .stat-box { background: white; padding: 35px 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #f1f5f9; text-align: center; height: 100%; transition: 0.3s; }
+        .stat-box:hover { transform: translateY(-5px); border-color: #e2e8f0; }
+        .stat-icon { font-size: 2.5rem; color: var(--brand-primary); margin-bottom: 15px; }
+
+        /* Section Titles */
+        .section-title { font-weight: 800; color: var(--brand-dark); letter-spacing: -0.5px; margin-bottom: 15px; }
+        .section-subtitle { color: var(--brand-gray); font-size: 1.1rem; max-width: 700px; margin: 0 auto 50px auto; line-height: 1.7; }
+
+        /* Service Cards */
+        .service-card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 40px 30px; transition: all 0.3s ease; height: 100%; position: relative; overflow: hidden;
+        }
+        .service-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--brand-primary); transform: scaleX(0); transition: transform 0.3s ease; transform-origin: left;
+        }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-icon-wrapper {
+            width: 65px; height: 65px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: #eff6ff; color: var(--brand-primary); font-size: 1.8rem; margin-bottom: 25px;
+        }
+
+        /* How it works */
+        .step-box { text-align: center; position: relative; z-index: 1;}
+        .step-number {
+            width: 60px; height: 60px; background: var(--brand-dark); color: var(--brand-accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: 800; margin: 0 auto 20px auto;
+            box-shadow: 0 10px 20px rgba(10, 25, 47, 0.2); border: 4px solid white;
+        }
+
+        /* Departments List */
+        .dept-badge { background: white; border: 1px solid #e2e8f0; padding: 15px 30px; border-radius: 8px; font-weight: 600; color: var(--brand-dark); display: inline-flex; align-items: center; gap: 12px; margin: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.3s; }
+        .dept-badge:hover { border-color: var(--brand-primary); color: var(--brand-primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        /* Footer */
+        .footer { background-color: var(--brand-dark); color: #94a3b8; padding: 70px 0 30px 0; border-top: 4px solid var(--brand-accent); }
+        .footer h5 { color: white; font-weight: 700; margin-bottom: 25px; letter-spacing: -0.5px; }
+        .footer-link { color: #94a3b8; text-decoration: none; transition: 0.2s; display: block; margin-bottom: 12px; font-size: 0.95rem; }
+        .footer-link:hover { color: var(--brand-accent); padding-left: 5px; }
+
+        @media (max-width: 991px) {
+            .hero-title { font-size: 2.8rem; }
+            .hero-section { padding: 100px 0 120px 0; }
+            .navbar-nav { padding-top: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
+            <!-- SLIIT Logo Placeholder / Icon -->
+            <i class="bi bi-shield-check me-2 fs-3 text-primary"></i>
+            <span>SLIIT <span class="fw-light text-muted">|</span> HelpDesk</span>
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list fs-1 text-dark"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- ms-auto aligns items to the right -->
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item me-1"><a class="nav-link active" th:href="@{/}"><b>Home</b></a></li>
+
+                <li class="nav-item mt-3 mt-lg-0">
+                    <a class="btn btn-custom-primary px-4 py-2 w-100" th:href="@{/login}">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Access Portal
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container" data-aos="fade-up">
+        <div class="row align-items-center">
+            <div class="col-lg-7 text-center text-lg-start mb-5 mb-lg-0">
+                <div class="d-inline-flex align-items-center bg-white bg-opacity-10 rounded-pill px-3 py-1 mb-4 border border-white border-opacity-25" data-aos="fade-down" data-aos-delay="100">
+                    <span class="badge bg-warning text-dark rounded-pill me-2">Official</span>
+                    <span class="small fw-semibold text-white">Sri Lanka Institute of Information Technology</span>
+                </div>
+                <h1 class="hero-title mb-4" data-aos="fade-up" data-aos-delay="200">
+                    Centralized Support for the <span>SLIIT Community.</span>
+                </h1>
+                <p class="hero-subtitle mb-5" data-aos="fade-up" data-aos-delay="300">
+                    Experience seamless academic and administrative assistance. The SLIIT Central Help Desk provides a unified digital workspace to resolve IT network issues, faculty inquiries, hostel maintenance, and student affairs with guaranteed Service Level Agreements (SLAs).
+                </p>
+                <div class="d-grid d-sm-flex gap-3 justify-content-center justify-content-lg-start" data-aos="fade-up" data-aos-delay="400">
+                    <a th:href="@{/login}" class="btn btn-custom-primary">
+                        Submit a Ticket <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <a href="#services" class="btn btn-custom-outline">
+                        Explore Services
+                    </a>
+                </div>
+            </div>
+            <!-- Premium IT/Campus Support Icon -->
+            <div class="col-lg-5 text-center d-none d-lg-block" data-aos="zoom-in" data-aos-delay="300">
+                <i class="bi bi-laptop" style="font-size: 15rem; color: rgba(255,255,255,0.9); filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust / Stats Banner -->
+<section class="container stats-banner mb-5 pb-4">
+    <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-box">
+                <i class="bi bi-stopwatch stat-icon"></i>
+                <h5 class="fw-bold text-dark mb-2">SLA Monitored</h5>
+                <p class="text-muted small mb-0">Strict 24-hour response tracking with auto-escalation to the SLIIT administration.</p>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-box">
+                <i class="bi bi-hdd-network stat-icon"></i>
+                <h5 class="fw-bold text-dark mb-2">Unified Platform</h5>
+                <p class="text-muted small mb-0">FOC, FOE, and Business School departments integrated into a single accessible portal.</p>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-box">
+                <i class="bi bi-incognito stat-icon"></i>
+                <h5 class="fw-bold text-dark mb-2">100% Confidential</h5>
+                <p class="text-muted small mb-0">Secure, untraceable reporting channels for sensitive student grievances and feedback.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="container py-5 my-5">
+    <div class="text-center" data-aos="fade-down">
+        <h2 class="section-title display-6">Comprehensive Support Infrastructure</h2>
+        <p class="section-subtitle">Designed to eliminate administrative delays, ensuring SLIIT undergraduates and staff experience a frictionless campus life.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Service 1 -->
+        <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-card">
+                <div class="service-icon-wrapper"><i class="bi bi-diagram-2-fill"></i></div>
+                <h5 class="fw-bold text-dark">Smart Routing</h5>
+                <p class="text-muted small mt-3 mb-0">
+                    Select a category, and our system automatically assigns your ticket to the correct SLIIT division, bypassing manual delays.
+                </p>
+            </div>
+        </div>
+        <!-- Service 2 -->
+        <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-card">
+                <div class="service-icon-wrapper text-success bg-success bg-opacity-10"><i class="bi bi-book-half"></i></div>
+                <h5 class="fw-bold text-dark">Knowledge Base</h5>
+                <p class="text-muted small mt-3 mb-0">
+                    Access SLIIT-verified FAQs, Eduscope guides, campus WiFi setups, and academic procedures to resolve minor issues instantly.
+                </p>
+            </div>
+        </div>
+        <!-- Service 3 -->
+        <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-card">
+                <div class="service-icon-wrapper text-warning bg-warning bg-opacity-10"><i class="bi bi-shield-check"></i></div>
+                <h5 class="fw-bold text-dark">Secure Reporting</h5>
+                <p class="text-muted small mt-3 mb-0">
+                    A dedicated blind-submission portal for reporting severe matters like ragging or maintenance hazards without logging your ID.
+                </p>
+            </div>
+        </div>
+        <!-- Service 4 -->
+        <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-card">
+                <div class="service-icon-wrapper text-danger bg-danger bg-opacity-10"><i class="bi bi-graph-up-arrow"></i></div>
+                <h5 class="fw-bold text-dark">Live Transparency</h5>
+                <p class="text-muted small mt-3 mb-0">
+                    Track every comment, status change, and staff response. If a ticket stalls, use the manual escalation button to alert the chief administrator.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="process" class="bg-white py-5 border-top border-bottom border-light">
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-down">
+            <h2 class="section-title display-6">Resolution Process</h2>
+            <p class="section-subtitle">A streamlined workflow guaranteeing accountability from ticket creation to final resolution.</p>
+        </div>
+
+        <div class="row text-center position-relative mt-5">
+            <!-- Connecting Line (Desktop only) -->
+            <div class="d-none d-md-block position-absolute top-50 start-50 translate-middle w-75" style="height: 2px; background: #e2e8f0; z-index: 0; margin-top: -30px;"></div>
+
+            <div class="col-md-4 mb-4 mb-md-0" data-aos="fade-right" data-aos-delay="100">
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <h5 class="fw-bold text-dark mt-4">Submit a Request</h5>
+                    <p class="text-muted small px-3 mt-2">Log into the portal using your SLIIT credentials, select urgency, and submit your issue securely.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <h5 class="fw-bold text-dark mt-4">Staff Processing</h5>
+                    <p class="text-muted small px-3 mt-2">Relevant SLIIT departmental staff accepts the ticket, initiates a conversation, and begins troubleshooting.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-left" data-aos-delay="300">
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <h5 class="fw-bold text-dark mt-4">Resolution & Review</h5>
+                    <p class="text-muted small px-3 mt-2">The issue is fixed. If SLA fails, the system automatically escalates the issue to the Main Admin Panel.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Supported Departments Section -->
+<section id="departments" class="container py-5 my-5 text-center">
+    <div data-aos="fade-up">
+        <h2 class="section-title display-6">Supported Faculties & Divisions</h2>
+        <p class="section-subtitle mb-5">The Help Desk integrates services across SLIIT Malabe and Metro campuses.</p>
+
+        <div class="d-flex flex-wrap justify-content-center">
+            <span class="dept-badge"><i class="bi bi-laptop text-primary"></i> Faculty of Computing (FOC)</span>
+            <span class="dept-badge"><i class="bi bi-gear text-success"></i> Faculty of Engineering (FOE)</span>
+            <span class="dept-badge"><i class="bi bi-briefcase text-warning"></i> SLIIT Business School</span>
+            <span class="dept-badge"><i class="bi bi-router text-danger"></i> IT Systems & Network</span>
+            <span class="dept-badge"><i class="bi bi-building-check text-secondary"></i> Muththettugala Hostel Mgt.</span>
+            <span class="dept-badge"><i class="bi bi-journal-check text-info"></i> Student Affairs Registry</span>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-5 mb-5">
+            <div class="col-lg-5">
+                <h4 class="text-white fw-bold mb-3"><i class="bi bi-shield-check text-primary me-2"></i>SLIIT HelpDesk</h4>
+                <p class="small text-white-50 mt-3 pe-lg-4" style="line-height: 1.8;">
+                    The official centralized support platform dedicated to providing rapid, accountable, and transparent problem resolution for all SLIIT undergraduates, postgraduates, and staff members.
+                </p>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+                <h5>Quick Navigation</h5>
+                <a th:href="@{/login}" class="footer-link"><i class="bi bi-chevron-right small me-2 text-primary"></i> Student Portal</a>
+                <a th:href="@{/login}" class="footer-link"><i class="bi bi-chevron-right small me-2 text-primary"></i> Staff Dashboard</a>
+                <a th:href="@{/login}" class="footer-link"><i class="bi bi-chevron-right small me-2 text-primary"></i> Admin Control Area</a>
+                <a href="#services" class="footer-link"><i class="bi bi-chevron-right small me-2 text-primary"></i> System Services</a>
+            </div>
+            <div class="col-lg-3">
+                <h5>Contact Support</h5>
+                <p class="small text-white-50 mb-2"><i class="bi bi-geo-alt-fill text-primary me-2"></i> SLIIT Malabe Campus, New Kandy Rd, Malabe</p>
+                <p class="small text-white-50 mb-2"><i class="bi bi-envelope-fill text-primary me-2"></i> info@sliit.lk</p>
+                <p class="small text-white-50 mb-0"><i class="bi bi-telephone-fill text-primary me-2"></i> +94 11 754 4801</p>
+            </div>
+        </div>
+        <hr class="border-secondary opacity-25 mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-0 small text-white-50">&copy; 2026 Sri Lanka Institute of Information Technology. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AOS Animation Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize Animations on Scroll
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 50,
+        easing: 'ease-out-cubic'
+    });
+</script>
+</body>
+</html>

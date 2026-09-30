@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments - Student Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { background-color: #f4f7f6; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .top-navbar { background-color: #ffffff; border-bottom: 1px solid #e2e8f0; }
+        .main-navbar { background-color: #1a1d2d !important; }
+        .main-navbar .nav-link { color: #cbd5e1; padding: 0.8rem 1rem; font-weight: 500; transition: all 0.3s ease; }
+        .main-navbar .nav-link:hover, .main-navbar .nav-link.active { color: #ffffff; background-color: rgba(255, 255, 255, 0.08); border-radius: 8px; }
+        .stat-card { border-radius: 12px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.04); }
+        .profile-btn { cursor: pointer; transition: all 0.2s; }
+        .profile-btn:hover { opacity: 0.8; }
+        .tier-badge { border: 1px solid #10b981; color: #10b981; font-weight: 600; padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; letter-spacing: 0.5px; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg top-navbar py-2 px-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand fw-bold d-flex align-items-center" th:href="@{/student/ticket/dashboard}">
+            <div class="bg-primary text-white rounded d-flex align-items-center justify-content-center me-2" style="width: 38px; height: 38px;">
+                <i class="bi bi-mortarboard-fill fs-5"></i>
+            </div>
+            <span class="text-dark fs-5">Student Portal <span class="fw-normal text-muted fs-6 ms-2">| SLIIT</span></span>
+        </a>
+        <div class="d-flex align-items-center gap-3">
+            <span class="tier-badge d-none d-md-block">TIER: <span th:text="${session.loggedUser.role}"></span></span>
+            <div class="d-flex align-items-center profile-btn">
+                <span class="small me-2 text-dark d-none d-md-block">Hello, <strong th:text="${session.loggedUser.fullName}"></strong></span>
+                <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                    <i class="bi bi-person-fill fs-5"></i>
+                </div>
+            </div>
+            <a th:href="@{/logout}" class="btn btn-danger rounded-pill px-3 fw-bold shadow-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark main-navbar px-3 shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#studentTopNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="studentTopNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item me-2"><a class="nav-link" th:href="@{/student/ticket/dashboard}"><i class="bi bi-house-door me-2"></i>Home</a></li>
+                <li class="nav-item me-2"><a class="nav-link" th:href="@{/student/ticket/myTickets}"><i class="bi bi-ticket-detailed-fill me-2"></i>My Tickets</a></li>
+                <li class="nav-item me-2"><a class="nav-link active" th:href="@{/appointment/myAppointments}"><i class="bi bi-calendar-check-fill me-2"></i>Book Appointment</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid p-4 p-md-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 animate-fade-up">
+        <div>
+            <h4 class="fw-bold mb-1 text-dark">Appointment & Callback Scheduling</h4>
+            <p class="text-muted small mb-0">Request a direct meeting or phone call with a faculty staff member.</p>
+        </div>
+        <button type="button" class="btn btn-primary fw-bold shadow-sm rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#newAppModal">
+            <i class="bi bi-calendar-plus-fill me-1"></i> Request Appointment
+        </button>
+    </div>
+
+    <div class="card stat-card p-4 bg-white border-top border-primary border-4 animate-fade-up delay-1">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle border-top">
+                <thead class="table-light text-muted small">
+                <tr>
+                    <th class="fw-semibold py-3" style="width: 15%;">Target Faculty</th>
+                    <th class="fw-semibold py-3" style="width: 25%;">Purpose of Meeting</th>
+                    <th class="fw-semibold py-3" style="width: 15%;">Status</th>
+                    <th class="fw-semibold py-3" style="width: 25%;">Scheduled Details & Notes</th>
+                    <th class="fw-semibold py-3" style="width: 12%;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a : ${appList}">
+                    <td><span class="badge bg-secondary-subtle text-secondary border px-2 py-1" th:text="${a.facultyName}"></span></td>
+                    <td>
+                        <strong class="text-dark d-block text-truncate" style="max-width: 200px;" th:title="${a.purpose}" th:text="${a.purpose}"></strong>
+                        <span class="badge bg-light text-secondary border mt-1">
+                                    <i class="bi me-1" th:classappend="${a.meetType == 'PHONE_CALLBACK' ? 'bi-telephone-fill text-info' : 'bi-person-video2 text-primary'}"></i>
+                                    <span th:text="${a.meetType == 'PHONE_CALLBACK' ? 'Phone Call' : 'Face-to-Face'}"></span>
+                                </span>
+                    </td>
+                    <td>
+                                <span class="badge px-3 py-2 rounded-pill"
+                                      th:classappend="${a.status == 'APPROVED' ? 'bg-success' : (a.status == 'PROCESSING' ? 'bg-primary' : (a.status == 'RESCHEDULE_REQUESTED' ? 'bg-danger' : 'bg-warning text-dark'))}">
+                                    <i class="bi me-1" th:classappend="${a.status == 'APPROVED' ? 'bi-calendar-check-fill' : (a.status == 'PROCESSING' ? 'bi-arrow-repeat' : (a.status == 'RESCHEDULE_REQUESTED' ? 'bi-exclamation-circle-fill' : 'bi-hourglass-split'))}"></i>
+                                    <span th:text="${a.status == 'RESCHEDULE_REQUESTED' ? 'RESCHEDULE REQ' : a.status}"></span>
+                                </span>
+                    </td>
+                    <td>
+                        <th:block th:switch="${a.status}">
+                            <div th:case="'APPROVED'" class="bg-success-subtle border border-success rounded-3 p-2 small">
+                                <strong><i class="bi bi-calendar-event text-success me-1"></i>Date:</strong> <span th:text="${a.scheduledDate}"></span> <br>
+                                <strong><i class="bi bi-clock-fill text-success me-1"></i>Time:</strong> <span th:text="${a.scheduledTime}"></span> <br>
+                                <hr class="my-1 border-success opacity-25">
+                                <strong>Note:</strong> <span class="text-success" th:text="${a.staffNotes}"></span>
+                            </div>
+                            <div th:case="'RESCHEDULE_REQUESTED'" class="bg-danger-subtle border border-danger rounded-3 p-2 small text-dark">
+                                <i class="bi bi-exclamation-triangle-fill text-danger me-1"></i> You requested a new time. Waiting for staff approval.
+                            </div>
+                            <span th:case="'PROCESSING'" class="text-muted small"><i class="bi bi-info-circle-fill text-primary"></i> Staff is reviewing your request. Please wait for the schedule.</span>
+                            <span th:case="*" class="text-muted small">Not scheduled yet.</span>
+                        </th:block>
+                    </td>
+                    <td>
+                        <a th:if="${a.status == 'PENDING'}" th:href="@{/appointment/delete(id=${a.appointmentId})}" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm w-100" onclick="return confirm('Are you sure you want to cancel this request?');">
+                            <i class="bi bi-x-circle-fill"></i> Cancel
+                        </a>
+
+                        <a th:if="${a.status == 'APPROVED'}" th:href="@{/appointment/requestReschedule(id=${a.appointmentId})}" class="btn btn-sm btn-outline-warning text-dark fw-bold rounded-pill px-3 shadow-sm w-100" onclick="return confirm('Are you sure you want to request a different date and time?');">
+                            <i class="bi bi-arrow-repeat"></i> Reschedule
+                        </a>
+
+                        <span th:if="${a.status == 'PROCESSING' or a.status == 'RESCHEDULE_REQUESTED'}" class="text-muted small"><i class="bi bi-lock-fill"></i> Locked</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(appList)}">
+                    <td colspan="6" class="text-center py-5">
+                        <div class="d-flex flex-column align-items-center justify-content-center text-muted">
+                            <i class="bi bi-calendar-x text-secondary opacity-50" style="font-size: 3rem;"></i>
+                            <h6 class="mt-3 text-dark fw-semibold">No appointments requested yet.</h6>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="newAppModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content stat-card border-primary border-top border-4">
+            <div class="modal-header bg-white border-bottom-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold text-primary"><i class="bi bi-calendar-plus-fill me-2"></i>Request an Appointment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form th:action="@{/appointment/request}" method="POST">
+                <div class="modal-body px-4 pb-2">
+                    <div class="alert alert-info small border-0 bg-info-subtle rounded-3">
+                        <i class="bi bi-info-circle-fill me-1"></i> Submit your request. A staff member will assign you a specific Date and Time based on their availability.
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Target Faculty</label>
+                            <select name="facultyId" class="form-select rounded-3 border-primary bg-primary-subtle text-primary fw-bold" required>
+                                <option value="" disabled selected>Select Faculty...</option>
+                                <option th:each="fac : ${facultyList}" th:value="${fac.facultyId}" th:text="${fac.facultyName}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Meeting Type</label>
+                            <select name="meetType" class="form-select rounded-3 fw-bold" required>
+                                <option value="FACE_TO_FACE" selected>Face-to-Face Meeting</option>
+                                <option value="PHONE_CALLBACK">Phone Call / Callback</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted text-uppercase">Purpose of Meeting</label>
+                        <textarea name="purpose" class="form-control rounded-3" rows="4" placeholder="Briefly explain why you need to meet or talk..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-top-0 px-4 py-3 rounded-bottom-3">
+                    <button type="button" class="btn btn-light fw-semibold" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary fw-bold rounded-pill px-4 shadow-sm"><i class="bi bi-send-fill me-1"></i> Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

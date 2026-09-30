@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - SLIIT</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Modern Font & Background */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { background-color: #f4f7f6; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* Navbar Styling */
+        .top-navbar { background-color: #ffffff; border-bottom: 1px solid #e2e8f0; }
+        .main-navbar { background-color: #1a1d2d !important; }
+        .main-navbar .nav-link { color: #cbd5e1; padding: 0.8rem 1rem; font-weight: 500; transition: all 0.3s ease; }
+        .main-navbar .nav-link:hover, .main-navbar .nav-link.active { color: #ffffff; background-color: rgba(255, 255, 255, 0.08); border-radius: 8px; }
+
+        /* Card Styling */
+        .stat-card { border-radius: 12px; border: none; box-shadow: 0 8px 16px rgba(0,0,0,0.04); transition: transform 0.3s ease; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .card-number { font-size: 2.5rem; font-weight: 700; color: #1e293b; }
+        .card-title-text { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: #64748b; }
+
+        /* Profile & Badges */
+        .profile-btn { cursor: pointer; transition: all 0.2s; }
+        .profile-btn:hover { opacity: 0.8; }
+        .tier-badge { border: 1px solid #10b981; color: #10b981; font-weight: 600; padding: 5px 15px; border-radius: 50px; font-size: 0.75rem; letter-spacing: 0.5px; }
+
+        /* Chat bubble style for popup */
+        .reply-bubble { background-color: #f8f9fa; border-left: 4px solid #198754; padding: 12px; margin-bottom: 10px; border-radius: 6px; font-size: 0.9rem; white-space: pre-line; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg top-navbar py-2 px-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand fw-bold d-flex align-items-center" th:href="@{/staff/dashboard}">
+            <div class="bg-success text-white rounded d-flex align-items-center justify-content-center me-2" style="width: 38px; height: 38px;">
+                <i class="bi bi-headset fs-5"></i>
+            </div>
+            <span class="text-dark fs-5">Staff Portal <span class="fw-normal text-muted fs-6 ms-2">| SLIIT</span></span>
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+            <span class="tier-badge d-none d-md-block">TIER: <span th:text="${session.loggedUser.role}"></span></span>
+            <div class="d-flex align-items-center profile-btn" data-bs-toggle="modal" data-bs-target="#profileModal" title="Click to view Profile & Security">
+                <span class="small me-2 text-dark d-none d-md-block">Staff: <strong th:text="${session.loggedUser.fullName}"></strong></span>
+                <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 40px; height: 40px;">
+                    <i class="bi bi-person-fill fs-5"></i>
+                </div>
+            </div>
+            <a th:href="@{/logout}" class="btn btn-danger rounded-pill px-3 px-sm-4 fw-bold shadow-sm" title="Logout">
+                <i class="bi bi-box-arrow-right d-sm-none"></i>
+                <span class="d-none d-sm-inline">Logout</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark main-navbar px-3 shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#staffTopNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="staffTopNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item me-2">
+                    <a class="nav-link active" th:href="@{/staff/dashboard}"><i class="bi bi-speedometer2 me-2"></i>Dashboard & Tickets</a>
+                </li>
+                <li class="nav-item me-2">
+                    <a class="nav-link" th:href="@{/appointment/staffList}"><i class="bi bi-calendar-event me-2"></i>Manage Appointments</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid p-4 p-md-5">
+
+    <div th:if="${param.error != null}" class="alert alert-danger alert-dismissible fade show shadow-sm animate-fade-up" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> <strong>Failed!</strong> The Old Password you entered is incorrect.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 animate-fade-up">
+        <div>
+            <h4 class="fw-bold mb-1 text-dark">Student Support Tickets Management</h4>
+            <p class="text-muted small mb-0">Review submitted campus issues, append replies, and moderate spam.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a th:href="@{/staff/dashboard}" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm"><i class="bi bi-arrow-clockwise me-1"></i> Refresh List</a>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-12 col-sm-6 col-xl-3 animate-fade-up delay-1">
+            <div class="card stat-card p-4 bg-white border-top border-warning border-4 h-100">
+                <h6 class="card-title-text text-uppercase mb-3">Open Tickets</h6>
+                <h1 class="card-number text-warning mb-0" th:text="${openCount}"></h1>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 animate-fade-up delay-1">
+            <div class="card stat-card p-4 bg-white border-top border-primary border-4 h-100">
+                <h6 class="card-title-text text-uppercase mb-3">In Progress</h6>
+                <h1 class="card-number text-primary mb-0" th:text="${progressCount}"></h1>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 animate-fade-up delay-2">
+            <div class="card stat-card p-4 bg-white border-top border-success border-4 h-100">
+                <h6 class="card-title-text text-uppercase mb-3">Resolved Tickets</h6>
+                <h1 class="card-number text-success mb-0" th:text="${resolvedCount}"></h1>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 animate-fade-up delay-2">
+            <div class="card stat-card p-4 bg-white border-top border-danger border-4 h-100">
+                <h6 class="card-title-text text-uppercase mb-3">Critical Priority (Pending)</h6>
+                <h1 class="card-number text-danger mb-0" th:text="${criticalCount}"></h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="animate-fade-up delay-3">
+        <h6 class="text-muted small fw-bold text-uppercase mb-3">System Overview</h6>
+        <div class="card stat-card p-4 bg-white border-top border-dark border-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-success-subtle p-2 rounded me-3">
+                    <i class="bi bi-list-check text-success fs-4"></i>
+                </div>
+                <h5 class="fw-bold mb-0 text-dark">All Student Submitted Requests</h5>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border-top">
+                    <thead class="table-light text-muted small">
+                    <tr>
+                        <th class="fw-semibold py-3" style="width: 6%;">ID</th>
+                        <th class="fw-semibold py-3" style="width: 25%;">Issue Title & Details</th>
+                        <th class="fw-semibold py-3" style="width: 12%;">Category</th>
+                        <th class="fw-semibold py-3" style="width: 10%;">Priority</th>
+                        <th class="fw-semibold py-3" style="width: 12%;">Status</th>
+                        <th class="fw-semibold py-3" style="width: 13%;">Submitted Date</th>
+                        <th class="fw-semibold py-3" style="width: 22%;">Staff Action & Moderation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="t : ${ticketList}">
+                        <td class="fw-bold text-muted">#<span th:text="${t.ticketId}"></span></td>
+                        <td>
+                            <strong class="text-dark d-block" th:text="${t.title}"></strong>
+                            <small class="text-muted d-block text-truncate" style="max-width: 280px;" th:text="${t.description}"></small>
+                            <span class="badge bg-light text-secondary border mt-2 px-2 py-1 rounded-pill"><i class="bi bi-person me-1"></i>Student ID: <span th:text="${t.studentUniversityId}"></span></span>
+                        </td>
+                        <td><span class="badge bg-secondary-subtle text-secondary border px-3 py-1 rounded-pill" th:text="${t.categoryName}"></span></td>
+                        <td>
+                            <span class="badge rounded-pill px-3"
+                                  th:classappend="${t.priority == 'CRITICAL' ? 'bg-danger' : (t.priority == 'HIGH' ? 'bg-warning text-dark' : 'bg-info text-dark')}"
+                                  th:text="${t.priority}">
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge px-3 py-2 fs-6 rounded-pill"
+                                  th:classappend="${(t.status == 'RESOLVED' or t.status == 'CLOSED') ? 'bg-success' : (t.status == 'IN_PROGRESS' ? 'bg-primary' : 'bg-warning text-dark')}"
+                                  th:text="${t.status}">
+                            </span>
+                        </td>
+                        <td class="small text-muted" th:text="${#dates.format(t.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <a th:if="${t.status == 'OPEN'}" th:href="@{/staff/updateStatus(id=${t.ticketId}, status='IN_PROGRESS')}" class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-sm" title="Accept & Start Working">
+                                    <i class="bi bi-play-fill"></i> Accept
+                                </a>
+
+                                <!-- Unified View Details & Reply Button -->
+                                <button type="button" class="btn btn-sm btn-success rounded-pill px-3 shadow-sm"
+                                        th:data-ticket-id="${t.ticketId}"
+                                        th:data-title="${t.title}"
+                                        th:data-desc="${t.description}"
+                                        th:data-student="${t.studentUniversityId}"
+                                        th:data-cat="${t.categoryName}"
+                                        th:data-priority="${t.priority}"
+                                        th:data-status="${t.status}"
+                                        th:data-date="${#dates.format(t.createdAt, 'yyyy-MM-dd HH:mm')}"
+                                        th:data-doc-id="${t.attachedDocId}"
+                                        th:data-history="${t.staffResponse}"
+                                        onclick="openTicketDetailsModal(this)"
+                                        title="View Full Details & Reply">
+                                    <i class="bi bi-box-arrow-up-right me-1"></i> View & Reply
+                                </button>
+
+                                <a th:if="${t.status == 'OPEN'}" th:href="@{/staff/deleteSpam(id=${t.ticketId})}" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm" onclick="return confirm('Are you sure you want to permanently delete this Ticket as Spam?');" title="Delete Spam Ticket">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(ticketList)}">
+                        <td colspan="7" class="text-center py-5">
+                            <div class="d-flex flex-column align-items-center justify-content-center text-muted">
+                                <i class="bi bi-inbox text-secondary opacity-50" style="font-size: 3rem;"></i>
+                                <h6 class="mt-3 text-dark fw-semibold">No support tickets found in the system right now.</h6>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- UNIFIED TICKET DETAILS & REPLY MODAL -->
+<div class="modal fade" id="ticketDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content stat-card border-success border-top border-4">
+            <div class="modal-header bg-white border-bottom-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold text-success"><i class="bi bi-ticket-detailed-fill me-2"></i>Ticket Details & Moderation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 pb-4">
+                <div class="row">
+                    <!-- LEFT COLUMN: Ticket Details & History -->
+                    <div class="col-lg-7 border-end pe-lg-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <span class="badge bg-secondary-subtle text-secondary border rounded-pill mb-2 px-3 py-1" id="dtCat"></span>
+                                <span class="badge rounded-pill ms-1 px-3 py-1" id="dtPriority"></span>
+                                <h5 class="fw-bold text-dark mb-1 mt-2" id="dtTitle"></h5>
+                                <div class="small text-muted"><i class="bi bi-person me-1"></i>Student ID: <span id="dtStudent" class="fw-bold"></span> &nbsp;|&nbsp; <i class="bi bi-calendar3 ms-1 me-1"></i><span id="dtDate"></span></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-light p-3 rounded-3 mb-4 border">
+                            <h6 class="fw-bold text-dark small text-uppercase mb-2">Description / Issue Detail</h6>
+                            <p class="text-secondary mb-0" id="dtDesc" style="white-space: pre-line;"></p>
+
+                            <!-- Document View Area -->
+                            <div class="mt-3 pt-3 border-top">
+                                <h6 class="fw-bold text-dark small text-uppercase mb-2"><i class="bi bi-paperclip me-1"></i> Attached Document</h6>
+
+                                <!-- Document එකක් තියෙනවා නම් මේක පෙන්වයි -->
+                                <div id="dtDocArea" style="display: none;">
+                                    <a href="#" id="dtDocLink" class="btn btn-sm btn-info text-dark fw-bold rounded-pill shadow-sm" target="_blank"><i class="bi bi-download me-1"></i> Download / View Attached File</a>
+                                </div>
+
+                                <!-- Document එකක් නැත්නම් මේක පෙන්වයි -->
+                                <div id="dtNoDocArea" style="display: none;">
+                                    <p class="text-muted small mb-0"><i class="bi bi-file-earmark-x"></i> No document attached by the student.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-dark small text-uppercase mb-3"><i class="bi bi-clock-history me-1"></i> Conversation History</h6>
+                        <div id="dtHistoryArea" class="p-3 bg-white border rounded-3" style="max-height: 250px; overflow-y: auto;">
+                            <!-- History bubbles will be injected here via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Reply Form -->
+                    <div class="col-lg-5 ps-lg-4 mt-4 mt-lg-0">
+                        <div class="bg-success-subtle p-4 rounded-3 h-100 border border-success border-opacity-25 shadow-sm">
+                            <h6 class="fw-bold text-success mb-3 fs-5"><i class="bi bi-reply-fill me-1"></i> Append New Reply</h6>
+                            <form th:action="@{/staff/replyTicket}" method="POST">
+                                <input type="hidden" name="ticketId" id="dtTicketId">
+
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-dark text-uppercase">Update Ticket Status</label>
+                                    <select name="status" id="dtStatus" class="form-select border-success rounded-3 fw-bold" required>
+                                        <option value="IN_PROGRESS" class="text-primary">IN PROGRESS (Working on it)</option>
+                                        <option value="RESOLVED" class="text-success">RESOLVED (Issue Fixed)</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label small fw-bold text-dark text-uppercase">Message to Student</label>
+                                    <textarea name="message" class="form-control border-success rounded-3" rows="7" placeholder="Type your detailed response here..." required></textarea>
+                                    <div class="form-text small mt-2 text-muted"><i class="bi bi-info-circle me-1"></i>This reply will be visible to the student immediately and saved in the history.</div>
+                                </div>
+
+                                <button type="submit" class="btn btn-success fw-bold w-100 rounded-pill shadow-sm py-2 fs-6"><i class="bi bi-send-fill me-1"></i> Send Reply</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile & Security Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content stat-card">
+            <div class="modal-header bg-dark text-white pt-4 px-4 border-0 rounded-top-3">
+                <h5 class="modal-title fw-bold"><i class="bi bi-person-bounding-box me-2 text-info"></i>My Profile & Security</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-circle text-success" style="font-size: 5rem;"></i>
+                    <h4 class="fw-bold mt-2 mb-1" th:text="${session.loggedUser.fullName}"></h4>
+                    <p class="text-muted small mb-2" th:text="${session.loggedUser.email}"></p>
+                    <span class="badge bg-success rounded-pill px-3 py-2" th:text="${session.loggedUser.role}"></span>
+                </div>
+                <div class="bg-light p-4 rounded-3 border">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-key-fill text-warning me-2"></i>Change Password</h6>
+                    <form th:action="@{/user/changePassword}" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Current Password</label>
+                            <input type="password" name="oldPassword" class="form-control rounded-3" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-muted text-uppercase">New Password</label>
+                            <input type="text" name="newPassword" class="form-control rounded-3" required>
+                        </div>
+                        <button type="submit" class="btn btn-success fw-bold w-100 rounded-pill shadow-sm py-2"><i class="bi bi-check2-circle me-1"></i> Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // නව Unified Modal එක පාලනය කරන Function එක
+    function openTicketDetailsModal(btn) {
+        // මූලික දත්ත සකස් කිරීම
+        document.getElementById('dtTicketId').value = btn.getAttribute('data-ticket-id');
+        document.getElementById('dtTitle').innerText = btn.getAttribute('data-title');
+        document.getElementById('dtDesc').innerText = btn.getAttribute('data-desc');
+        document.getElementById('dtStudent').innerText = btn.getAttribute('data-student');
+        document.getElementById('dtCat').innerText = btn.getAttribute('data-cat');
+        document.getElementById('dtDate').innerText = btn.getAttribute('data-date');
+
+        // Priority Badge එක සකස් කිරීම
+        let priority = btn.getAttribute('data-priority');
+        let pBadge = document.getElementById('dtPriority');
+        pBadge.innerText = priority;
+        pBadge.className = 'badge rounded-pill ms-1 px-3 py-1 ' +
+            (priority === 'CRITICAL' ? 'bg-danger' : (priority === 'HIGH' ? 'bg-warning text-dark' : 'bg-info text-dark'));
+
+        // Status Dropdown එක සකස් කිරීම
+        let status = btn.getAttribute('data-status');
+        let statusSelect = document.getElementById('dtStatus');
+        if(status === 'RESOLVED' || status === 'CLOSED') {
+            statusSelect.value = 'RESOLVED';
+        } else {
+            statusSelect.value = 'IN_PROGRESS';
+        }
+
+        // --- වෙනස් කළ Document පෙන්වීමේ තර්කය ---
+        let docId = btn.getAttribute('data-doc-id');
+        let docArea = document.getElementById('dtDocArea');
+        let noDocArea = document.getElementById('dtNoDocArea');
+        let docLink = document.getElementById('dtDocLink');
+
+        if (docId && docId !== 'null' && docId !== '') {
+            docArea.style.display = 'block';     // Document එකක් තියෙනවා නම් බට්න් එක පෙන්වන්න
+            noDocArea.style.display = 'none';
+            docLink.href = '/document/download/' + docId;
+        } else {
+            docArea.style.display = 'none';
+            noDocArea.style.display = 'block';   // Document එකක් නැත්නම් "No document" පණිවිඩය පෙන්වන්න
+        }
+
+        // History Bubbles සකස් කිරීම
+        var rawHistory = btn.getAttribute('data-history');
+        var historyContainer = document.getElementById('dtHistoryArea');
+        historyContainer.innerHTML = '';
+
+        if(rawHistory && rawHistory.trim() !== '') {
+            var replies = rawHistory.split('---SEPARATOR---');
+            replies.forEach(function(reply) {
+                if(reply && reply.trim() !== '') {
+                    var bubble = document.createElement('div');
+                    bubble.className = 'reply-bubble shadow-sm';
+                    bubble.innerText = reply.trim();
+                    historyContainer.appendChild(bubble);
+                }
+            });
+        } else {
+            historyContainer.innerHTML = '<div class="text-center text-muted my-4"><i class="bi bi-chat-square-text text-secondary opacity-50 fs-2 d-block mb-2"></i><small>No replies have been sent yet.</small></div>';
+        }
+
+        // Modal එක පෙන්වීම
+        new bootstrap.Modal(document.getElementById('ticketDetailsModal')).show();
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

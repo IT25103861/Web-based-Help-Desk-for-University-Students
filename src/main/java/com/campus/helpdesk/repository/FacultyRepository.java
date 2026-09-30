@@ -1,0 +1,9 @@
+package com.campus.helpdesk.repository;
+
+import com.campus.helpdesk.model.Faculty;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FacultyRepository extends JpaRepository<Faculty, Integer> {
+}

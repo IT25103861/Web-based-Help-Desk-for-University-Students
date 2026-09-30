@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Campus Hub | SLIIT</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        /* Modern Font & Background */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Split Card Container */
+        .login-wrapper {
+            display: flex;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 950px;
+            width: 100%;
+            min-height: 550px;
+            animation: fadeSlideUp 0.8s ease-out forwards;
+        }
+
+        /* Left Side: SLIIT Image Section */
+        .login-image-section {
+            flex: 1.2;
+            /* මෙතන url එක ඇතුළේ ඔයාගේ SLIIT ෆොටෝ එකේ ලින්ක් එක දෙන්න (උදා: url('/images/sliit.jpg') ) */
+            background: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center center/cover no-repeat;
+            position: relative;
+            display: none; /* Mobile වලදී Image එක සඟවයි */
+        }
+
+        /* Image Overlay Gradient */
+        .login-image-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(13, 110, 253, 0.4), rgba(13, 110, 253, 0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .login-image-overlay h2 {
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s both;
+        }
+
+        .login-image-overlay p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        /* Right Side: Form Section */
+        .login-form-section {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header i {
+            font-size: 3.5rem;
+            color: #0d6efd;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s both;
+        }
+
+        /* Custom Form Inputs */
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-color: #e2e8f0;
+            padding: 0.8rem 1.2rem;
+        }
+        .form-control {
+            background-color: #f8f9fa;
+            border-color: #e2e8f0;
+            padding: 0.8rem 1rem;
+            font-weight: 500;
+        }
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: #0d6efd;
+            box-shadow: none;
+        }
+        .input-group:focus-within .input-group-text {
+            background-color: #ffffff;
+            border-color: #0d6efd;
+            color: #0d6efd !important;
+        }
+
+        /* Button Hover Effects */
+        .btn-primary {
+            padding: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+        }
+
+        /* Desktop View Media Query */
+        @media (min-width: 768px) {
+            .login-image-section { display: flex; }
+            .login-form-section { padding: 4rem; }
+        }
+
+        /* Animations Keyframes */
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Staggered form elements animation */
+        .stagger-1 { animation: fadeInUp 0.6s ease-out 0.5s both; }
+        .stagger-2 { animation: fadeInUp 0.6s ease-out 0.6s both; }
+        .stagger-3 { animation: fadeInUp 0.6s ease-out 0.7s both; }
+        .stagger-4 { animation: fadeInUp 0.6s ease-out 0.8s both; }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+
+    <!-- Left Side: Campus Image -->
+    <div class="login-image-section">
+        <div class="login-image-overlay">
+            <h2>SLIIT </h2>
+            <p>Empowering Students & Staff through unified digital solutions.</p>
+        </div>
+    </div>
+
+    <!-- Right Side: Login Form -->
+    <div class="login-form-section">
+
+        <!-- Header Section -->
+        <div class="login-header">
+            <i class="bi bi-person-circle drop-shadow"></i>
+            <h3 class="fw-bold mt-2 stagger-1 text-dark">Welcome Back!</h3>
+            <p class="text-muted small stagger-1">Login to Access Your SLIIT Account</p>
+        </div>
+
+        <!-- Error Message Display Area (Thymeleaf logic untouched) -->
+        <div th:if="${errorMessage != null}" class="alert alert-danger alert-dismissible fade show text-center small stagger-1" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-1"></i> <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Login Form (Thymeleaf logic untouched) -->
+        <form th:action="@{/login}" method="POST">
+
+            <!-- Email Field -->
+            <div class="mb-4 stagger-2">
+                <label for="email" class="form-label text-secondary small fw-bold tracking-wide">EMAIL ADDRESS</label>
+                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                    <span class="input-group-text border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                    <input type="email" class="form-control border-start-0" id="email" name="email"
+                           placeholder="e.g. student@sliit.lk" required autofocus>
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-4 stagger-3">
+                <label for="password" class="form-label text-secondary small fw-bold tracking-wide">PASSWORD</label>
+                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                    <span class="input-group-text border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                    <input type="password" class="form-control border-start-0" id="password" name="password"
+                           placeholder="Enter your password" required>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid mb-4 stagger-4">
+                <button type="submit" class="btn btn-primary rounded-pill fw-bold">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Secure Login
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Back to Home Link -->
+        <div class="text-center stagger-4">
+            <a th:href="@{/}" class="text-decoration-none small text-muted fw-semibold">
+                <i class="bi bi-arrow-left me-1"></i> Back to Home Page
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
