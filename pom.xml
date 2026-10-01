@@ -23,7 +23,7 @@
 	<description>Web-based Help Desk for University Students</description>
 
 	<properties>
-		<java.version>21</java.version> <!-- ඔයාගේ PC එකේ තියෙන්නේ Java 17 නම්, මේක 17 කරන්න -->
+		<java.version>17</java.version> <!-- ඔයාගේ PC එකේ තියෙන්නේ Java 17 නම්, මේක 17 කරන්න -->
 	</properties>
 
 	<dependencies>

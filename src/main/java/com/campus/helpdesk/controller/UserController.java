@@ -75,20 +75,39 @@ public class UserController {
         }
     }
 
+    @GetMapping("/admin/users/checkEmail")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public java.util.Map<String, Boolean> checkEmail(@RequestParam("email") String email) {
+        boolean exists = userService.isEmailExists(email);
+        java.util.Map<String, Boolean> response = new java.util.HashMap<>();
+        response.put("exists", exists);
+        return response;
+    }
+
     @PostMapping("/admin/users/add")
     public String addUser(@RequestParam("fullName") String fullName,
                           @RequestParam("email") String email,
                           @RequestParam("password") String password,
                           @RequestParam("role") String role,
-                          @RequestParam(value = "universityId", required = false) String universityId,
                           @RequestParam(value = "facultyId", required = false) Integer facultyId,
                           HttpSession session) {
 
         User loggedUser = checkAdminAuth(session);
         if (loggedUser == null) return "redirect:/login";
 
+        if (email == null || email.trim().isEmpty() || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            return "redirect:/admin/users?error=invalidEmail";
+        }
+
+        if (fullName == null || fullName.trim().isEmpty()) {
+            return "redirect:/admin/users?error=invalidData";
+        }
+
+        if (userService.isEmailExists(email)) {
+            return "redirect:/admin/users?error=emailExists";
+        }
+
         if ("ADMIN".equalsIgnoreCase(role) || "SUPER_ADMIN".equalsIgnoreCase(role)) {
-            universityId = null;
             facultyId = 0;
         } else if (facultyId == null) {
             facultyId = 0;
@@ -96,13 +115,15 @@ public class UserController {
 
         User newUser = new User();
         newUser.setFullName(fullName);
-        newUser.setEmail(email);
+        newUser.setEmail(email.trim());
         newUser.setPasswordHash(password);
         newUser.setRole(role);
-        newUser.setUniversityId(universityId);
         newUser.setFacultyId(facultyId);
 
-        userService.addUser(newUser, loggedUser.getRole());
+        boolean added = userService.addUser(newUser, loggedUser.getRole());
+        if (!added) {
+            return "redirect:/admin/users?error=emailExists";
+        }
 
         return "redirect:/admin/users";
     }
