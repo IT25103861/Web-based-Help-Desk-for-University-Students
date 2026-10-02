@@ -1,0 +1,258 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.campus:CampusHelpDesk >----------------------
+[INFO] Building CampusHelpDesk 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ CampusHelpDesk ---
+[INFO] Deleting D:\Vihanga\Educational\SLIIT\Year 2\Semester 1\Software Engineering - SE2030\Project\Help Desk\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ CampusHelpDesk ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 11 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ CampusHelpDesk ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 35 source files with javac [debug parameters release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/UserService.java:[46,73] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable user of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[37,39] cannot find symbol
+  symbol:   method findByFacultyIdOrderByTicketIdDesc(int)
+  location: variable ticketRepository of type com.campus.helpdesk.repository.TicketRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[43,42] cannot find symbol
+  symbol:   method getCategoryId()
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[44,38] cannot find symbol
+  symbol:   method getStudentId()
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[47,52] cannot find symbol
+  symbol:   method findByTicketId(int)
+  location: variable documentRepository of type com.campus.helpdesk.repository.TicketDocumentRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[66,14] cannot find symbol
+  symbol:   method setAssignedStaffId(int)
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[79,14] cannot find symbol
+  symbol:   method setAssignedStaffId(int)
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/AppointmentController.java:[45,95] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/AppointmentController.java:[83,20] cannot find symbol
+  symbol:   method setStudentId(int)
+  location: variable appointment of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[34,41] cannot find symbol
+  symbol:   method getStudentId()
+  location: class com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[42,55] cannot find symbol
+  symbol:   method findByStudentIdOrderByAppointmentIdDesc(int)
+  location: variable appointmentRepository of type com.campus.helpdesk.repository.AppointmentRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[44,43] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable app of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[52,41] cannot find symbol
+  symbol:   method findByFacultyIdOrderByAppointmentIdDesc(int)
+  location: variable appointmentRepository of type com.campus.helpdesk.repository.AppointmentRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[58,40] cannot find symbol
+  symbol:   method getStudentId()
+  location: variable app of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[62,43] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable app of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[94,41] cannot find symbol
+  symbol:   method getStudentId()
+  location: class com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/CategoryController.java:[102,46] cannot find symbol
+  symbol:   method existsByCategoryId(int)
+  location: variable ticketRepository of type com.campus.helpdesk.repository.TicketRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[37,36] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[37,73] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[66,18] cannot find symbol
+  symbol:   method getAssignedStaffId()
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[66,76] cannot find symbol
+  symbol:   method getAssignedStaffId()
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[67,42] cannot find symbol
+  symbol:   method getAssignedStaffId()
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StaffController.java:[28,73] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[63,15] cannot find symbol
+  symbol:   method setStudentId(int)
+  location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[69,20] cannot find symbol
+  symbol:   method setTicketId(int)
+  location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[70,20] cannot find symbol
+  symbol:   method setUserId(int)
+  location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[93,15] cannot find symbol
+  symbol:   method setStudentId(int)
+  location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[99,20] cannot find symbol
+  symbol:   method setTicketId(int)
+  location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[100,20] cannot find symbol
+  symbol:   method setUserId(int)
+  location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[23,48] cannot find symbol
+  symbol:   method findByStudentIdOrderByTicketIdDesc(int)
+  location: variable ticketRepository of type com.campus.helpdesk.repository.TicketRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[26,70] cannot find symbol
+  symbol:   method getCategoryId()
+  location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[53,41] cannot find symbol
+  symbol:   method getStudentId()
+  location: class com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[74,41] cannot find symbol
+  symbol:   method getStudentId()
+  location: class com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[74,66] cannot find symbol
+  symbol:   method getStudentId()
+  location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[79,42] cannot find symbol
+  symbol:   method getCategoryId()
+  location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[80,41] cannot find symbol
+  symbol:   method getFacultyId()
+  location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/UserController.java:[121,16] cannot find symbol
+  symbol:   method setFacultyId(java.lang.Integer)
+  location: variable newUser of type com.campus.helpdesk.entity.User
+[INFO] 37 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.324 s
+[INFO] Finished at: 2026-10-01T23:10:58+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project CampusHelpDesk: Compilation failure: Compilation failure: 
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/UserService.java:[46,73] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable user of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[37,39] cannot find symbol
+[ERROR]   symbol:   method findByFacultyIdOrderByTicketIdDesc(int)
+[ERROR]   location: variable ticketRepository of type com.campus.helpdesk.repository.TicketRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[43,42] cannot find symbol
+[ERROR]   symbol:   method getCategoryId()
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[44,38] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[47,52] cannot find symbol
+[ERROR]   symbol:   method findByTicketId(int)
+[ERROR]   location: variable documentRepository of type com.campus.helpdesk.repository.TicketDocumentRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[66,14] cannot find symbol
+[ERROR]   symbol:   method setAssignedStaffId(int)
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StaffTicketService.java:[79,14] cannot find symbol
+[ERROR]   symbol:   method setAssignedStaffId(int)
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/AppointmentController.java:[45,95] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/AppointmentController.java:[83,20] cannot find symbol
+[ERROR]   symbol:   method setStudentId(int)
+[ERROR]   location: variable appointment of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[34,41] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: class com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[42,55] cannot find symbol
+[ERROR]   symbol:   method findByStudentIdOrderByAppointmentIdDesc(int)
+[ERROR]   location: variable appointmentRepository of type com.campus.helpdesk.repository.AppointmentRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[44,43] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable app of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[52,41] cannot find symbol
+[ERROR]   symbol:   method findByFacultyIdOrderByAppointmentIdDesc(int)
+[ERROR]   location: variable appointmentRepository of type com.campus.helpdesk.repository.AppointmentRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[58,40] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: variable app of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[62,43] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable app of type com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/AppointmentService.java:[94,41] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: class com.campus.helpdesk.entity.Appointment
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/CategoryController.java:[102,46] cannot find symbol
+[ERROR]   symbol:   method existsByCategoryId(int)
+[ERROR]   location: variable ticketRepository of type com.campus.helpdesk.repository.TicketRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[37,36] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[37,73] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[66,18] cannot find symbol
+[ERROR]   symbol:   method getAssignedStaffId()
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[66,76] cannot find symbol
+[ERROR]   symbol:   method getAssignedStaffId()
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/ReportController.java:[67,42] cannot find symbol
+[ERROR]   symbol:   method getAssignedStaffId()
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StaffController.java:[28,73] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable loggedUser of type com.campus.helpdesk.entity.User
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[63,15] cannot find symbol
+[ERROR]   symbol:   method setStudentId(int)
+[ERROR]   location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[69,20] cannot find symbol
+[ERROR]   symbol:   method setTicketId(int)
+[ERROR]   location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[70,20] cannot find symbol
+[ERROR]   symbol:   method setUserId(int)
+[ERROR]   location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[93,15] cannot find symbol
+[ERROR]   symbol:   method setStudentId(int)
+[ERROR]   location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[99,20] cannot find symbol
+[ERROR]   symbol:   method setTicketId(int)
+[ERROR]   location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/StudentTicketController.java:[100,20] cannot find symbol
+[ERROR]   symbol:   method setUserId(int)
+[ERROR]   location: variable doc of type com.campus.helpdesk.entity.TicketDocument
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[23,48] cannot find symbol
+[ERROR]   symbol:   method findByStudentIdOrderByTicketIdDesc(int)
+[ERROR]   location: variable ticketRepository of type com.campus.helpdesk.repository.TicketRepository
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[26,70] cannot find symbol
+[ERROR]   symbol:   method getCategoryId()
+[ERROR]   location: variable t of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[53,41] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: class com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[74,41] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: class com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[74,66] cannot find symbol
+[ERROR]   symbol:   method getStudentId()
+[ERROR]   location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[79,42] cannot find symbol
+[ERROR]   symbol:   method getCategoryId()
+[ERROR]   location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/service/StudentTicketService.java:[80,41] cannot find symbol
+[ERROR]   symbol:   method getFacultyId()
+[ERROR]   location: variable ticket of type com.campus.helpdesk.entity.Ticket
+[ERROR] /D:/Vihanga/Educational/SLIIT/Year 2/Semester 1/Software Engineering - SE2030/Project/Help Desk/src/main/java/com/campus/helpdesk/controller/UserController.java:[121,16] cannot find symbol
+[ERROR]   symbol:   method setFacultyId(java.lang.Integer)
+[ERROR]   location: variable newUser of type com.campus.helpdesk.entity.User
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

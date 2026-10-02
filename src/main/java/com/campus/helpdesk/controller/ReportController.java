@@ -34,7 +34,7 @@ public class ReportController {
             return "redirect:/login";
         }
 
-        int facultyId = (loggedUser.getFacultyId() != null) ? loggedUser.getFacultyId() : 0;
+        int facultyId = (loggedUser.getFaculty() != null) ? loggedUser.getFaculty().getFacultyId() : 0;
         List<Ticket> ticketList = ticketService.getAllTickets(facultyId, loggedUser.getRole());
 
         int openCount = 0, progressCount = 0, resolvedCount = 0, closedCount = 0;
@@ -63,8 +63,8 @@ public class ReportController {
             String catName = t.getCategoryName() != null ? t.getCategoryName() : "Uncategorized";
             categoryCounts.put(catName, categoryCounts.getOrDefault(catName, 0) + 1);
 
-            if (t.getAssignedStaffId() != null && !staffNames.containsKey(t.getAssignedStaffId())) {
-                userRepository.findById(t.getAssignedStaffId()).ifPresent(u -> staffNames.put(u.getUserId(), u.getFullName()));
+            if (t.getAssignedStaff() != null && !staffNames.containsKey(t.getAssignedStaff().getUserId())) {
+                userRepository.findById(t.getAssignedStaff().getUserId()).ifPresent(u -> staffNames.put(u.getUserId(), u.getFullName()));
             }
         }
 

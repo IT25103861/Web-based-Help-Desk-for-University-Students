@@ -14,11 +14,13 @@ public class TicketDocument implements Serializable {
     @Column(name = "document_id")
     private int documentId;
 
-    @Column(name = "ticket_id")
-    private int ticketId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
-    @Column(name = "user_id")
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "file_name")
     private String fileName;
@@ -27,7 +29,7 @@ public class TicketDocument implements Serializable {
     private String fileType;
 
     @Lob
-    @Column(name = "file_data", columnDefinition="LONGBLOB")
+    @Column(name = "file_data")
     private byte[] fileData;
 
     @CreationTimestamp
@@ -37,11 +39,11 @@ public class TicketDocument implements Serializable {
     public int getDocumentId() { return documentId; }
     public void setDocumentId(int documentId) { this.documentId = documentId; }
 
-    public int getTicketId() { return ticketId; }
-    public void setTicketId(int ticketId) { this.ticketId = ticketId; }
+    public Ticket getTicket() { return ticket; }
+    public void setTicket(Ticket ticket) { this.ticket = ticket; }
 
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
     public String getFileName() { return fileName; }
     public void setFileName(String fileName) { this.fileName = fileName; }

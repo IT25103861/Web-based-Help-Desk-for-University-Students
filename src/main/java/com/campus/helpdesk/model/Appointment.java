@@ -16,11 +16,13 @@ public class Appointment implements Serializable {
     @Column(name = "appointment_id")
     private int appointmentId;
 
-    @Column(name = "student_id")
-    private int studentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private User student;
 
-    @Column(name = "faculty_id")
-    private int facultyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @Column(name = "purpose", columnDefinition = "TEXT")
     private String purpose;
@@ -58,11 +60,11 @@ public class Appointment implements Serializable {
     public int getAppointmentId() { return appointmentId; }
     public void setAppointmentId(int appointmentId) { this.appointmentId = appointmentId; }
 
-    public int getStudentId() { return studentId; }
-    public void setStudentId(int studentId) { this.studentId = studentId; }
+    public User getStudent() { return student; }
+    public void setStudent(User student) { this.student = student; }
 
-    public int getFacultyId() { return facultyId; }
-    public void setFacultyId(int facultyId) { this.facultyId = facultyId; }
+    public Faculty getFaculty() { return faculty; }
+    public void setFaculty(Faculty faculty) { this.faculty = faculty; }
 
     public String getStudentName() { return studentName; }
     public void setStudentName(String studentName) { this.studentName = studentName; }

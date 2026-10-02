@@ -25,7 +25,7 @@ public class StaffController {
             return "redirect:/login";
         }
 
-        List<Ticket> ticketList = ticketService.getAllTickets(loggedUser.getFacultyId(), loggedUser.getRole());
+        List<Ticket> ticketList = ticketService.getAllTickets(loggedUser.getFaculty().getFacultyId(), loggedUser.getRole());
 
         long openCount = ticketList.stream().filter(t -> "OPEN".equalsIgnoreCase(t.getStatus())).count();
         long progressCount = ticketList.stream().filter(t -> "IN_PROGRESS".equalsIgnoreCase(t.getStatus())).count();

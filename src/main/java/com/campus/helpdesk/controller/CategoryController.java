@@ -99,7 +99,7 @@ public class CategoryController {
     @GetMapping("/delete")
     public String deleteCategory(@RequestParam("id") int categoryId, HttpSession session) {
 
-        boolean hasTickets = ticketRepository.existsByCategoryId(categoryId);
+        boolean hasTickets = ticketRepository.existsByCategory_CategoryId(categoryId);
         if (hasTickets) {
             return "redirect:/admin/category/list?error=deleteFailed";
         }

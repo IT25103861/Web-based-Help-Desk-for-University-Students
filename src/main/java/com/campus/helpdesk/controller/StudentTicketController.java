@@ -60,14 +60,14 @@ public class StudentTicketController {
         User loggedUser = (User) session.getAttribute("loggedUser");
         if (loggedUser == null) return "redirect:/login";
 
-        ticket.setStudentId(loggedUser.getUserId());
+        ticket.setStudent(new com.campus.helpdesk.model.User() {{ setUserId(loggedUser.getUserId()); }});
         ticketService.addTicket(ticket);
 
         try {
             if (file != null && !file.isEmpty()) {
                 TicketDocument doc = new TicketDocument();
-                doc.setTicketId(ticket.getTicketId());
-                doc.setUserId(loggedUser.getUserId());
+                doc.setTicket(new com.campus.helpdesk.model.Ticket() {{ setTicketId(ticket.getTicketId()); }});
+                doc.setUser(new com.campus.helpdesk.model.User() {{ setUserId(loggedUser.getUserId()); }});
                 doc.setFileName(file.getOriginalFilename());
                 doc.setFileType(file.getContentType());
                 doc.setFileData(file.getBytes());
@@ -90,14 +90,14 @@ public class StudentTicketController {
         User loggedUser = (User) session.getAttribute("loggedUser");
         if (loggedUser == null) return "redirect:/login";
 
-        ticket.setStudentId(loggedUser.getUserId());
+        ticket.setStudent(new com.campus.helpdesk.model.User() {{ setUserId(loggedUser.getUserId()); }});
         ticketService.updateTicket(ticket);
 
         try {
             if (file != null && !file.isEmpty()) {
                 TicketDocument doc = new TicketDocument();
-                doc.setTicketId(ticket.getTicketId());
-                doc.setUserId(loggedUser.getUserId());
+                doc.setTicket(new com.campus.helpdesk.model.Ticket() {{ setTicketId(ticket.getTicketId()); }});
+                doc.setUser(new com.campus.helpdesk.model.User() {{ setUserId(loggedUser.getUserId()); }});
                 doc.setFileName(file.getOriginalFilename());
                 doc.setFileType(file.getContentType());
                 doc.setFileData(file.getBytes());

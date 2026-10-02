@@ -20,10 +20,10 @@ public class StudentTicketService {
     private CategoryRepository categoryRepository;
 
     public List<Ticket> getTicketsByStudent(int studentId) {
-        List<Ticket> tickets = ticketRepository.findByStudentIdOrderByTicketIdDesc(studentId);
+        List<Ticket> tickets = ticketRepository.findByStudent_UserIdOrderByTicketIdDesc(studentId);
 
         for (Ticket t : tickets) {
-            Optional<Category> optCat = categoryRepository.findById(t.getCategoryId());
+            Optional<Category> optCat = categoryRepository.findById(t.getCategory().getCategoryId());
 
             int slaHours = 72;
             if (optCat.isPresent()) {
@@ -50,7 +50,7 @@ public class StudentTicketService {
 
     public boolean deleteTicket(int ticketId, int studentId) {
         Optional<Ticket> opt = ticketRepository.findById(ticketId);
-        if (opt.isPresent() && opt.get().getStudentId() == studentId && "OPEN".equals(opt.get().getStatus())) {
+        if (opt.isPresent() && opt.get().getStudent().getUserId() == studentId && "OPEN".equals(opt.get().getStatus())) {
             ticketRepository.deleteById(ticketId);
             return true;
         }
@@ -71,13 +71,13 @@ public class StudentTicketService {
 
     public boolean updateTicket(Ticket ticket) {
         Optional<Ticket> opt = ticketRepository.findById(ticket.getTicketId());
-        if (opt.isPresent() && opt.get().getStudentId() == ticket.getStudentId() && "OPEN".equals(opt.get().getStatus())) {
+        if (opt.isPresent() && opt.get().getStudent().getUserId() == ticket.getStudent().getUserId() && "OPEN".equals(opt.get().getStatus())) {
             Ticket existing = opt.get();
             existing.setTitle(ticket.getTitle());
             existing.setDescription(ticket.getDescription());
             existing.setPriority(ticket.getPriority());
-            existing.setCategoryId(ticket.getCategoryId());
-            existing.setFacultyId(ticket.getFacultyId());
+            existing.setCategory(ticket.getCategory());
+            existing.setFaculty(ticket.getFaculty());
             ticketRepository.save(existing);
             return true;
         }

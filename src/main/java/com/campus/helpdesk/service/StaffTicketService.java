@@ -34,17 +34,17 @@ public class StaffTicketService {
         List<Ticket> tickets;
 
         if ("STAFF".equalsIgnoreCase(role) && facultyId > 0) {
-            tickets = ticketRepository.findByFacultyIdOrderByTicketIdDesc(facultyId);
+            tickets = ticketRepository.findByFaculty_FacultyIdOrderByTicketIdDesc(facultyId);
         } else {
             tickets = ticketRepository.findAllByOrderByTicketIdDesc(); // Admin සඳහා
         }
 
         for (Ticket t : tickets) {
-            categoryRepository.findById(t.getCategoryId()).ifPresent(c -> t.setCategoryName(c.getCategoryName()));
-            userRepository.findById(t.getStudentId()).ifPresent(u -> t.setStudentUniversityId(u.getUniversityId()));
+            categoryRepository.findById(t.getCategory().getCategoryId()).ifPresent(c -> t.setCategoryName(c.getCategoryName()));
+            userRepository.findById(t.getStudent().getUserId()).ifPresent(u -> t.setStudentUniversityId(u.getUniversityId()));
 
             // --- Document එකක් තියෙනවද කියලා හොයලා ID එක සෙට් කරන කෑල්ල ---
-            TicketDocument doc = documentRepository.findByTicketId(t.getTicketId());
+            TicketDocument doc = documentRepository.findByTicket_TicketId(t.getTicketId());
             if (doc != null) {
                 // සටහන: ඔයාගේ TicketDocument මොඩල් එකේ ID එක ගන්න Method එක getId() නම් මේක හරි.
                 // වෙනස් නම් (උදා: getDocumentId() වගේ නම්) ඒක මෙතන මාරු කරගන්න.
@@ -63,7 +63,7 @@ public class StaffTicketService {
         if (opt.isPresent()) {
             Ticket t = opt.get();
             t.setStatus(newStatus);
-            t.setAssignedStaffId(staffId);
+            t.setAssignedStaff(new com.campus.helpdesk.model.User() {{ setUserId(staffId); }});
             ticketRepository.save(t);
             return true;
         }
@@ -76,7 +76,7 @@ public class StaffTicketService {
             Ticket t = opt.get();
             String formattedMessage = "[ " + new java.sql.Timestamp(System.currentTimeMillis()) + " ] : " + responseMessage + "\n---SEPARATOR---\n";
             t.setStatus(newStatus);
-            t.setAssignedStaffId(staffId);
+            t.setAssignedStaff(new com.campus.helpdesk.model.User() {{ setUserId(staffId); }});
             t.setStaffResponse((t.getStaffResponse() == null ? "" : t.getStaffResponse()) + formattedMessage);
             ticketRepository.save(t);
             return true;

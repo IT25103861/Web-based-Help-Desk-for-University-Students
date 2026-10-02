@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
-    List<Appointment> findByStudentIdOrderByAppointmentIdDesc(int studentId);
+    List<Appointment> findByStudent_UserIdOrderByAppointmentIdDesc(int studentId);
 
-    List<Appointment> findByFacultyIdOrderByAppointmentIdDesc(int facultyId);
+    List<Appointment> findByFaculty_FacultyIdOrderByAppointmentIdDesc(int facultyId);
 
     List<Appointment> findAllByOrderByAppointmentIdDesc();
 }

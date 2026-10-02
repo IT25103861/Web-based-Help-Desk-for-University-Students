@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
-    List<Ticket> findByStudentIdOrderByTicketIdDesc(int studentId);
+    List<Ticket> findByStudent_UserIdOrderByTicketIdDesc(int studentId);
 
-    List<Ticket> findByFacultyIdOrderByTicketIdDesc(int facultyId);
+    List<Ticket> findByFaculty_FacultyIdOrderByTicketIdDesc(int facultyId);
 
     List<Ticket> findAllByOrderByTicketIdDesc();
 
-    boolean existsByCategoryId(int categoryId);
+    boolean existsByCategory_CategoryId(int categoryId);
 }

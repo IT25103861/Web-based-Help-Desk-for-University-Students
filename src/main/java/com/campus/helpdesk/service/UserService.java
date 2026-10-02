@@ -26,11 +26,13 @@ public class UserService {
     }
 
     public boolean isEmailExists(String email) {
-        if (email == null || email.trim().isEmpty()) {
-            return false;
-        }
-        return userRepository.existsByEmailIgnoreCase(email.trim());
+        return userRepository.existsByEmailIgnoreCase(email);
     }
+
+    public boolean isNicExists(String nic) {
+        return userRepository.existsByNicIgnoreCase(nic);
+    }
+
 
     public boolean addUser(User user, String creatorRole) {
         if (!"SUPER_ADMIN".equalsIgnoreCase(creatorRole) &&
@@ -43,7 +45,7 @@ public class UserService {
         }
 
         if (user.getUniversityId() == null || user.getUniversityId().trim().isEmpty()) {
-            String autoGenId = generateUniversityId(user.getRole(), user.getFacultyId());
+            String autoGenId = generateUniversityId(user.getRole(), user.getFaculty().getFacultyId());
             user.setUniversityId(autoGenId);
         }
 

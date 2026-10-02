@@ -15,7 +15,7 @@ public class Faculty implements Serializable {
     @Column(name = "faculty_id")
     private int facultyId;
 
-    @Column(name = "faculty_name")
+    @Column(name = "faculty_name", unique = true, nullable = false)
     private String facultyName;
 
     @CreationTimestamp

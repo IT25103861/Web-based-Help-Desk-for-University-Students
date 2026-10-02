@@ -31,7 +31,7 @@ public class AppointmentService {
 
     public boolean deleteRequest(int appointmentId, int studentId) {
         Optional<Appointment> opt = appointmentRepository.findById(appointmentId);
-        if (opt.isPresent() && opt.get().getStudentId() == studentId && "PENDING".equals(opt.get().getStatus())) {
+        if (opt.isPresent() && opt.get().getStudent().getUserId() == studentId && "PENDING".equals(opt.get().getStatus())) {
             appointmentRepository.deleteById(appointmentId);
             return true;
         }
@@ -39,9 +39,9 @@ public class AppointmentService {
     }
 
     public List<Appointment> getAppointmentsByStudent(int studentId) {
-        List<Appointment> list = appointmentRepository.findByStudentIdOrderByAppointmentIdDesc(studentId);
+        List<Appointment> list = appointmentRepository.findByStudent_UserIdOrderByAppointmentIdDesc(studentId);
         for (Appointment app : list) {
-            facultyRepository.findById(app.getFacultyId()).ifPresent(f -> app.setFacultyName(f.getFacultyName()));
+            facultyRepository.findById(app.getFaculty().getFacultyId()).ifPresent(f -> app.setFacultyName(f.getFacultyName()));
         }
         return list;
     }
@@ -49,17 +49,17 @@ public class AppointmentService {
     public List<Appointment> getAllAppointmentsForStaff(int facultyId, String role) {
         List<Appointment> list;
         if ("STAFF".equalsIgnoreCase(role) && facultyId > 0) {
-            list = appointmentRepository.findByFacultyIdOrderByAppointmentIdDesc(facultyId);
+            list = appointmentRepository.findByFaculty_FacultyIdOrderByAppointmentIdDesc(facultyId);
         } else {
             list = appointmentRepository.findAllByOrderByAppointmentIdDesc();
         }
 
         for (Appointment app : list) {
-            userRepository.findById(app.getStudentId()).ifPresent(u -> {
+            userRepository.findById(app.getStudent().getUserId()).ifPresent(u -> {
                 app.setStudentName(u.getFullName());
                 app.setStudentUniId(u.getUniversityId());
             });
-            facultyRepository.findById(app.getFacultyId()).ifPresent(f -> app.setFacultyName(f.getFacultyName()));
+            facultyRepository.findById(app.getFaculty().getFacultyId()).ifPresent(f -> app.setFacultyName(f.getFacultyName()));
         }
         return list;
     }
@@ -91,7 +91,7 @@ public class AppointmentService {
 
     public boolean requestReschedule(int appointmentId, int studentId) {
         Optional<Appointment> opt = appointmentRepository.findById(appointmentId);
-        if (opt.isPresent() && opt.get().getStudentId() == studentId && "APPROVED".equals(opt.get().getStatus())) {
+        if (opt.isPresent() && opt.get().getStudent().getUserId() == studentId && "APPROVED".equals(opt.get().getStatus())) {
             Appointment app = opt.get();
             app.setStatus("RESCHEDULE_REQUESTED");
             appointmentRepository.save(app);

@@ -7,26 +7,30 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity // මේකෙන් කියන්නේ මේ ක්ලාස් එක Database Table එකක් කියලා
-@Table(name = "Users") // Database එකේ තියෙන Table එකේ නම
+@Entity
+@Table(name = "Users")
 public class User implements Serializable {
 
-    @Id // මේක Primary Key එක කියලා කියන්න
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto Increment වෙන බව කියන්න
-    @Column(name = "user_id") // Database එකේ column එකේ නම (user_id)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int userId;
 
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "university_id")
+    @Column(name = "university_id", unique = true, nullable = false)
     private String universityId;
 
-    @Column(name = "faculty_id")
-    private Integer facultyId; // මෙතන int වෙනුවට Integer ලෙස වෙනස් කරන්න
+    @Column(name = "nic", unique = true, nullable = false)
+    private String nic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @Column(name = "password_hash")
     private String passwordHash;
@@ -37,25 +41,24 @@ public class User implements Serializable {
     @Column(name = "account_status")
     private String accountStatus;
 
-    @CreationTimestamp // පේළියක් හැදෙද්දී ඉබේම වෙලාව වැටෙන්න
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
-    @UpdateTimestamp // පේළියක් Update වෙද්දී ඉබේම වෙලාව වැටෙන්න
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
-
-    // --- Constructors ---
 
     public User() {
     }
 
-    public User(int userId, String fullName, String email, String universityId, int facultyId, String passwordHash, String role, String accountStatus) {
+    public User(int userId, String fullName, String email, String universityId, String nic, Faculty faculty, String passwordHash, String role, String accountStatus) {
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;
         this.universityId = universityId;
-        this.facultyId = facultyId;
+        this.nic = nic;
+        this.faculty = faculty;
         this.passwordHash = passwordHash;
         this.role = role;
         this.accountStatus = accountStatus;
@@ -71,10 +74,12 @@ public class User implements Serializable {
     public void setEmail(String email) { this.email = email; }
 
     public String getUniversityId() { return universityId; }
+    public String getNic() { return nic; }
     public void setUniversityId(String universityId) { this.universityId = universityId; }
+    public void setNic(String nic) { this.nic = nic; }
 
-    public Integer getFacultyId() { return facultyId; }
-    public void setFacultyId(Integer facultyId) { this.facultyId = facultyId; }
+    public Faculty getFaculty() { return faculty; }
+    public void setFaculty(Faculty faculty) { this.faculty = faculty; }
 
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }

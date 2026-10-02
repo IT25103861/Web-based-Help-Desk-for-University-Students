@@ -42,7 +42,7 @@ public class AppointmentController {
             return "redirect:/login";
         }
 
-        model.addAttribute("appList", appointmentService.getAllAppointmentsForStaff(loggedUser.getFacultyId(), loggedUser.getRole()));
+        model.addAttribute("appList", appointmentService.getAllAppointmentsForStaff(loggedUser.getFaculty().getFacultyId(), loggedUser.getRole()));
         return "staff_appointments";
     }
 
@@ -80,7 +80,7 @@ public class AppointmentController {
             return "redirect:/login";
         }
 
-        appointment.setStudentId(loggedUser.getUserId());
+        appointment.setStudent(new com.campus.helpdesk.model.User() {{ setUserId(loggedUser.getUserId()); }});
         appointmentService.requestAppointment(appointment);
         return "redirect:/appointment/myAppointments";
     }

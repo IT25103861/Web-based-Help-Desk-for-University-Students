@@ -16,23 +16,28 @@ public class Ticket implements Serializable {
     @Column(name = "ticket_id")
     private int ticketId;
 
+    @Column(name = "title", unique = true, nullable = false)
     private String title;
     private String description;
 
     private String status;
     private String priority;
 
-    @Column(name = "student_id")
-    private int studentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private User student;
 
-    @Column(name = "assigned_staff_id")
-    private Integer assignedStaffId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assigned_staff_id")
+    private User assignedStaff;
 
-    @Column(name = "category_id")
-    private int categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    @Column(name = "faculty_id")
-    private int facultyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -54,8 +59,6 @@ public class Ticket implements Serializable {
     @Column(name = "university_id")
     private String studentUniversityId;
 
-    // --- Database එකේ නැති, නමුත් UI එකට අවශ්‍ය අමතර දත්ත ---
-    // @Transient යෙදීමෙන් මේවා Table එකේ Columns ලෙස සෑදෙන්නේ නැත.
     @Transient
     private String categoryName;
 
@@ -86,17 +89,17 @@ public class Ticket implements Serializable {
     public String getPriority() { return priority; }
     public void setPriority(String priority) { this.priority = priority; }
 
-    public int getStudentId() { return studentId; }
-    public void setStudentId(int studentId) { this.studentId = studentId; }
+    public User getStudent() { return student; }
+    public void setStudent(User student) { this.student = student; }
 
-    public Integer getAssignedStaffId() { return assignedStaffId; }
-    public void setAssignedStaffId(Integer assignedStaffId) { this.assignedStaffId = assignedStaffId; }
+    public User getAssignedStaff() { return assignedStaff; }
+    public void setAssignedStaff(User assignedStaff) { this.assignedStaff = assignedStaff; }
 
-    public int getCategoryId() { return categoryId; }
-    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 
-    public int getFacultyId() { return facultyId; }
-    public void setFacultyId(int facultyId) { this.facultyId = facultyId; }
+    public Faculty getFaculty() { return faculty; }
+    public void setFaculty(Faculty faculty) { this.faculty = faculty; }
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }

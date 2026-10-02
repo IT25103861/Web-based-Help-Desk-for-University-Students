@@ -287,6 +287,14 @@
                             <div id="emailFeedback" class="invalid-feedback fw-semibold">
                                 <i class="bi bi-exclamation-circle-fill me-1"></i> email address already exists in the system. Please enter a different email.
                             </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase">National Identity Card (NIC)</label>
+                            <input type="text" name="nic" id="nicInput" class="form-control rounded-3" placeholder="e.g. 199912345678 or 991234567V" required pattern="^([0-9]{9}[vV]|[0-9]{12})$" title="Format must be 9 digits + V (e.g., 991234567V) or 12 digits (e.g., 199912345678)">
+                            
+                            <div id="nicFeedback" class="invalid-feedback fw-semibold">
+                                <i class="bi bi-exclamation-circle-fill me-1"></i> NIC already exists in the system. Please enter a different NIC.
+                            </div>
+                        </div>
                         </div>
 
                         <div class="mb-3" id="facultyGroup">
@@ -329,6 +337,10 @@
                                 <tr>
                                     <td class="text-muted fw-bold small text-uppercase"><i class="bi bi-envelope me-1"></i> Email</td>
                                     <td class="fw-semibold text-dark" id="confirmEmail"></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted fw-bold small text-uppercase"><i class="bi bi-card-text me-1"></i> NIC</td>
+                                    <td class="fw-semibold text-dark" id="confirmNic"></td>
                                 </tr>
                                 <tr id="confirmFacultyRow">
                                     <td class="text-muted fw-bold small text-uppercase"><i class="bi bi-building me-1"></i> Faculty</td>
@@ -472,6 +484,35 @@
 
         let isEmailDuplicate = false;
 
+        const nicInput = document.getElementById('nicInput');
+        let isNicDuplicate = false;
+
+        function checkNicExists(nicVal) {
+            if (!nicVal) return;
+            fetch('/admin/users/checkNic?nic=' + encodeURIComponent(nicVal))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.exists) {
+                        isNicDuplicate = true;
+                        if (nicInput) nicInput.classList.add('is-invalid');
+                    } else {
+                        isNicDuplicate = false;
+                        if (nicInput) nicInput.classList.remove('is-invalid');
+                    }
+                })
+                .catch(err => console.error('Error verifying NIC:', err));
+        }
+
+        if (nicInput) {
+            nicInput.addEventListener('change', function() {
+                checkNicExists(this.value.trim());
+            });
+            nicInput.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+                isNicDuplicate = false;
+            });
+        }
+
         function checkEmailExists(emailVal) {
             if (!emailVal || !emailVal.includes('@')) return;
 
@@ -512,6 +553,7 @@
         if (reviewBtn) {
             reviewBtn.addEventListener('click', function() {
                 // Check if email is duplicate
+                if (isNicDuplicate) { if(nicInput) nicInput.classList.add('is-invalid'); return; }
                 if (isEmailDuplicate) {
                     if (emailInput) emailInput.classList.add('is-invalid');
                     return;
@@ -526,6 +568,7 @@
                 const role = roleSelect ? roleSelect.options[roleSelect.selectedIndex].text : '';
                 const fullName = document.getElementById('fullNameInput') ? document.getElementById('fullNameInput').value : '';
                 const email = emailInput ? emailInput.value : '';
+                const nic = document.getElementById('nicInput') ? document.getElementById('nicInput').value : '';
                 const password = document.getElementById('passwordInput') ? document.getElementById('passwordInput').value : '';
                 const facultyText = facultySelect && facultySelect.selectedIndex > 0 ? facultySelect.options[facultySelect.selectedIndex].text : '';
                 const roleVal = roleSelect ? roleSelect.value : '';
@@ -533,6 +576,7 @@
                 document.getElementById('confirmRole').innerText = role;
                 document.getElementById('confirmName').innerText = fullName;
                 document.getElementById('confirmEmail').innerText = email;
+                document.getElementById('confirmNic').innerText = nic;
                 document.getElementById('confirmPassword').innerText = password;
 
                 const facultyRow = document.getElementById('confirmFacultyRow');

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TicketDocumentRepository extends JpaRepository<TicketDocument, Integer> {
-    TicketDocument findByTicketId(int ticketId);
+    TicketDocument findByTicket_TicketId(int ticketId);
 }
