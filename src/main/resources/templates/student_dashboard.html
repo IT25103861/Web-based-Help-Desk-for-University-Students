@@ -166,7 +166,7 @@
                                 <i class="bi bi-paperclip"></i> View Attachment
                             </a>
                         </td>
-                        <td><span class="badge bg-secondary-subtle text-secondary border px-2 py-1" th:text="${t.categoryName}"></span></td>
+                        <td><span class="badge bg-secondary-subtle text-secondary border px-2 py-1" th:text="${t.category != null ? t.category.categoryName : ''}"></span></td>
                         <td>
                                     <span class="badge rounded-pill px-3"
                                           th:classappend="${t.priority == 'CRITICAL' ? 'bg-danger' : (t.priority == 'HIGH' ? 'bg-warning text-dark' : 'bg-info text-dark')}"
@@ -186,8 +186,8 @@
                                         th:data-id="${t.ticketId}"
                                         th:data-title="${t.title}"
                                         th:data-desc="${t.description}"
-                                        th:data-cat="${t.categoryId}"
-                                        th:data-fac="${t.facultyId}"
+                                        th:data-cat="${t.category != null ? t.category.categoryId : null}"
+                                        th:data-fac="${t.faculty != null ? t.faculty.facultyId : null}"
                                         th:data-priority="${t.priority}"
                                         onclick="openEditTicketModal(this)"
                                         title="Edit Ticket">
@@ -249,7 +249,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label small fw-bold text-muted text-uppercase">Target Faculty / Department</label>
-                            <select name="facultyId" class="form-select rounded-3 border-primary bg-primary-subtle text-primary fw-bold" required>
+                            <select name="faculty.facultyId" class="form-select rounded-3 border-primary bg-primary-subtle text-primary fw-bold" required>
                                 <option value="" disabled selected>Select Target Faculty...</option>
                                 <option th:each="fac : ${facultyList}" th:value="${fac.facultyId}" th:text="${fac.facultyName}"></option>
                             </select>
@@ -263,7 +263,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label small fw-bold text-muted text-uppercase">CATEGORY</label>
-                            <select name="categoryId" class="form-select rounded-3" required>
+                            <select name="category.categoryId" class="form-select rounded-3" required>
                                 <option value="" disabled selected>Select a Category...</option>
                                 <option th:each="cat : ${categoryList}" th:value="${cat.categoryId}" th:text="${cat.categoryName}"></option>
                             </select>
@@ -323,7 +323,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label small fw-bold text-muted text-uppercase">Target Faculty / Department</label>
-                            <select name="facultyId" id="editFaculty" class="form-select rounded-3 border-warning bg-warning-subtle text-dark fw-bold" required>
+                            <select name="faculty.facultyId" id="editFaculty" class="form-select rounded-3 border-warning bg-warning-subtle text-dark fw-bold" required>
                                 <option th:each="fac : ${facultyList}" th:value="${fac.facultyId}" th:text="${fac.facultyName}"></option>
                             </select>
                         </div>
@@ -336,7 +336,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label small fw-bold text-muted text-uppercase">CATEGORY</label>
-                            <select name="categoryId" id="editCategory" class="form-select rounded-3" required>
+                            <select name="category.categoryId" id="editCategory" class="form-select rounded-3" required>
                                 <option th:each="cat : ${categoryList}" th:value="${cat.categoryId}" th:text="${cat.categoryName}"></option>
                             </select>
                         </div>

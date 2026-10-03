@@ -164,7 +164,7 @@
                             <small class="text-muted d-block text-truncate" style="max-width: 280px;" th:text="${t.description}"></small>
                             <span class="badge bg-light text-secondary border mt-2 px-2 py-1 rounded-pill"><i class="bi bi-person me-1"></i>Student ID: <span th:text="${t.studentUniversityId}"></span></span>
                         </td>
-                        <td><span class="badge bg-secondary-subtle text-secondary border px-3 py-1 rounded-pill" th:text="${t.categoryName}"></span></td>
+                        <td><span class="badge bg-secondary-subtle text-secondary border px-3 py-1 rounded-pill" th:text="${t.category != null ? t.category.categoryName : ''}"></span></td>
                         <td>
                             <span class="badge rounded-pill px-3"
                                   th:classappend="${t.priority == 'CRITICAL' ? 'bg-danger' : (t.priority == 'HIGH' ? 'bg-warning text-dark' : 'bg-info text-dark')}"
@@ -190,7 +190,7 @@
                                         th:data-title="${t.title}"
                                         th:data-desc="${t.description}"
                                         th:data-student="${t.studentUniversityId}"
-                                        th:data-cat="${t.categoryName}"
+                                        th:data-cat="${t.category != null ? t.category.categoryName : ''}"
                                         th:data-priority="${t.priority}"
                                         th:data-status="${t.status}"
                                         th:data-date="${#dates.format(t.createdAt, 'yyyy-MM-dd HH:mm')}"

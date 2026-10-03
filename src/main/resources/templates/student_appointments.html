@@ -159,7 +159,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label small fw-bold text-muted text-uppercase">Target Faculty</label>
-                            <select name="facultyId" class="form-select rounded-3 border-primary bg-primary-subtle text-primary fw-bold" required>
+                            <select name="faculty.facultyId" class="form-select rounded-3 border-primary bg-primary-subtle text-primary fw-bold" required>
                                 <option value="" disabled selected>Select Faculty...</option>
                                 <option th:each="fac : ${facultyList}" th:value="${fac.facultyId}" th:text="${fac.facultyName}"></option>
                             </select>

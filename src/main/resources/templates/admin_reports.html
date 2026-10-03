@@ -222,10 +222,10 @@
                             </td>
                             <td>
                                 <!-- Staff handling the ticket -->
-                                <span th:if="${t.assignedStaffId != null}" class="badge bg-success-subtle text-success border px-2 py-1 rounded-pill shadow-sm">
-                                        <i class="bi bi-headset me-1"></i> <span th:text="${staffNames.get(t.assignedStaffId)}"></span>
+                                <span th:if="${t.assignedStaff != null ? t.assignedStaff.userId : null != null}" class="badge bg-success-subtle text-success border px-2 py-1 rounded-pill shadow-sm">
+                                        <i class="bi bi-headset me-1"></i> <span th:text="${staffNames.get(t.assignedStaff != null ? t.assignedStaff.userId : null)}"></span>
                                     </span>
-                                <span th:if="${t.assignedStaffId == null}" class="text-muted small">
+                                <span th:if="${t.assignedStaff != null ? t.assignedStaff.userId : null == null}" class="text-muted small">
                                         <i class="bi bi-hourglass me-1"></i> Unassigned
                                     </span>
                             </td>
